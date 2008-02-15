@@ -1,6 +1,6 @@
 //
 // Original Author:  Fedor Ratnikov Dec 27, 2006
-// $Id: SimpleL4EMFCorrector.cc,v 1.1 2007/11/13 23:52:39 fedor Exp $
+// $Id: SimpleL4EMFCorrector.cc,v 1.1.2.1 2008/02/15 21:28:20 fedor Exp $
 //
 // MC Jet Corrector
 //
@@ -92,6 +92,6 @@ double SimpleL4EMFCorrector::correctionBandPtEtaEmfraction (unsigned fBand, doub
   double effectivePt = fPt > PT_CUTOFF ? fPt : PT_CUTOFF;
   double logPt = log (effectivePt);
   double deltaPt = p0*logPt + p1*logPt*logPt*logPt*sqrt(effectivePt);
-  return 1+deltaPt/effectivePt : 1.;
+  return 1+deltaPt/effectivePt;
 }
 
