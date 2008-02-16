@@ -25,11 +25,8 @@ SimpleL2RelativeCorrector::~SimpleL2RelativeCorrector () {
 
 double SimpleL2RelativeCorrector::correctionPtEta (double fPt, double fEta) const {
   double result = 1.;
-  int band = mParameters->bandIndex(fEta);
-  if (band<0) {
-    band = fEta<0 ? 0 : mParameters->size()-1;
-  }
-  if (band==0 || band==int(mParameters->size())-1)
+  unsigned band = mParameters->bandIndex (fEta);
+  if (band==0 || band==mParameters->size()-1)
     result = correctionBandPtEta (band, fPt, fEta);
   else
     { 
@@ -58,7 +55,7 @@ double SimpleL2RelativeCorrector::correctionEtEtaPhiP (double fEt, double fEta, 
 double SimpleL2RelativeCorrector::correctionBandPtEta (unsigned fBand, double fPt, double fEta) const {
   if (fBand >= mParameters->size()) {
     throw cms::Exception ("SimpleL2RelativeCorrector") 
-      << "wrong band: " << fBand << ": only " <<  mParameters->size() << " is available" <<", eta = "<<fEta;
+      << "wrong band: " << fBand << ": only " <<  mParameters->size() << " is available";
   }
   const std::vector<float>& p = mParameters->record (fBand).parameters ();
   if (p.size() != nParameters) {
