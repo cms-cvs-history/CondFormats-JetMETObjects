@@ -8,7 +8,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiE4D<double> > PtEtaPhiELor
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > XYZTLorentzVectorD;
 
 namespace {
-  const unsigned nParameters = 6;
+  const unsigned nParameters = 5;
 }
 
 SimpleL3AbsoluteCorrector::SimpleL3AbsoluteCorrector () 
@@ -24,8 +24,7 @@ SimpleL3AbsoluteCorrector::~SimpleL3AbsoluteCorrector () {
 }
 
 double SimpleL3AbsoluteCorrector::correctionPtEta (double fPt, double fEta) const {
-  int band = mParameters->bandIndex(fEta);
-  if (band<0) band = fEta<0 ? 0 : mParameters->size()-1;
+  unsigned band = mParameters->bandIndex (fEta);
   double result = correctionBandPtEta (band, fPt, fEta);  
   return result;
 }
@@ -51,7 +50,6 @@ double SimpleL3AbsoluteCorrector::correctionBandPtEta (unsigned fBand, double fP
       << "wrong # of parameters: " << nParameters << " expected, " << p.size() << " got";
   }
   double pt = (fPt < p[0]) ? p[0] : (fPt > p[1]) ? p[1] : fPt;
-  double log10pt = log10(pt);
-  double result = p[2]+p[3]/(pow(log10pt,p[4])+p[5]);
+  double result = p[2]+p[3]/(pow(pt,p[4])+p[5]);
   return result;
 }
