@@ -1,6 +1,6 @@
 //
 // Original Author:  Fedor Ratnikov Dec 27, 2006
-// $Id: SimpleMCJetCorrector.cc,v 1.2 2007/03/31 17:32:40 fedor Exp $
+// $Id: SimpleMCJetCorrector.cc,v 1.5 2007/11/17 00:50:14 fedor Exp $
 //
 // MC Jet Corrector
 //
