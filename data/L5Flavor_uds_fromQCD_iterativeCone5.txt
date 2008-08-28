@@ -1,0 +1,5 @@
+# L5 flavor corrections for uds quarks
+# energy mapping: ptGen = (pt - p5)/p6
+# parametrization: p2+p3*logPt+p4*logPt^2, constant if Pt<p0 or Pt>p1
+#etamin  etamax  #ofparameters  ptmin  ptmax    p2         p3        p4     mapping: p5        p6
+  -999    999          7          25   3650     0.691709   0.176237  -0.026105       4.947737  1.005257
