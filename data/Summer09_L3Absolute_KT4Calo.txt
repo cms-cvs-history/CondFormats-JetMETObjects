@@ -1,2 +1,2 @@
-{1 JetEta 1 JetPt [0]+[1]/(pow(log10(x),2)+[3]) Correction}
+{1 JetEta 1 JetPt [0]+[1]/(pow(log10(x),[2])+[3]) Correction}
 -5.191      5.191       6           4           5000        1.01391     5.44303     3.5007      2.46753     
