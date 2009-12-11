@@ -1,6 +1,6 @@
 //
 // Original Author:  Fedor Ratnikov Dec 27, 2006
-// $Id: SimpleMCJetCorrector.h,v 1.4 2007/12/08 01:55:40 fedor Exp $
+// $Id: SimpleMCJetCorrector.h,v 1.5 2008/05/20 23:38:36 fedor Exp $
 //
 // MC Jet Corrector
 //
@@ -9,9 +9,7 @@
 
 #include <map>
 #include <string>
-
-/// classes declaration
-namespace {
+namespace MCJetNameSpace{
   class ParametrizationMCJet;
   typedef std::map <double, ParametrizationMCJet*> ParametersMap;
 }
@@ -31,7 +29,7 @@ class SimpleMCJetCorrector {
  private:
   SimpleMCJetCorrector (const SimpleMCJetCorrector&);
   SimpleMCJetCorrector& operator= (const SimpleMCJetCorrector&);
-  ParametersMap* mParametrization;
+  MCJetNameSpace::ParametersMap* mParametrization;
 };
 
 #endif

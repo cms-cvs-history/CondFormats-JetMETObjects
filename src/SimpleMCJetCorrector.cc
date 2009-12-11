@@ -1,6 +1,6 @@
 //
 // Original Author:  Fedor Ratnikov Dec 27, 2006
-// $Id: SimpleMCJetCorrector.cc,v 1.6 2007/12/08 01:55:41 fedor Exp $
+// $Id: SimpleMCJetCorrector.cc,v 1.7 2008/01/22 18:51:39 muzaffar Exp $
 //
 // MC Jet Corrector
 //
@@ -19,7 +19,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > XYZTLorentzVec
 using namespace std;
 
 
-namespace {
+namespace MCJetNameSpace {
   bool debug = false;
 
   /// Parametrization itself
@@ -117,8 +117,7 @@ namespace {
       pars.push_back(vector<double>());
       while(linestream>>par)pars.back().push_back(par);
     }
-  }
-  
+  } 
 } // namespace
 
 SimpleMCJetCorrector::SimpleMCJetCorrector ()
@@ -134,16 +133,16 @@ SimpleMCJetCorrector::SimpleMCJetCorrector (const std::string& fDataFile)
 void SimpleMCJetCorrector::init (const std::string& fDataFile) {
   // clean up map if not empty
   if (mParametrization) {
-    for (ParametersMap::iterator it = mParametrization->begin (); it != mParametrization->end (); it++) {
+    for (MCJetNameSpace::ParametersMap::iterator it = mParametrization->begin (); it != mParametrization->end (); it++) {
       delete it->second;
     }
     delete mParametrization;
   }
-  mParametrization = new ParametersMap ();
-  JetCalibrationParameterSetMCJet pset (fDataFile);
+  mParametrization = new MCJetNameSpace::ParametersMap ();
+  MCJetNameSpace::JetCalibrationParameterSetMCJet pset (fDataFile);
   if(pset.valid()){
     for (int ieta=0; ieta < pset.neta(); ieta++) {
-      (*mParametrization) [pset.eta(ieta)]= new ParametrizationMCJet (pset.type(ieta), pset.parameters(ieta));
+      (*mParametrization) [pset.eta(ieta)]= new MCJetNameSpace::ParametrizationMCJet (pset.type(ieta), pset.parameters(ieta));
     }
   }
   else {
@@ -154,7 +153,7 @@ void SimpleMCJetCorrector::init (const std::string& fDataFile) {
 
 SimpleMCJetCorrector::~SimpleMCJetCorrector () {
   // clean up map
-  for (ParametersMap::iterator it = mParametrization->begin (); it != mParametrization->end (); it++) {
+  for (MCJetNameSpace::ParametersMap::iterator it = mParametrization->begin (); it != mParametrization->end (); it++) {
     delete it->second;
   }
   delete mParametrization;
@@ -177,10 +176,10 @@ double SimpleMCJetCorrector::correctionEtEta (double fEt, double fEta) const {
   double eta=fabs (fEta);
   
   
-  if (debug) cout<<" Et and eta of jet "<<et<<" "<<eta<<endl;
+  if (MCJetNameSpace::debug) cout<<" Et and eta of jet "<<et<<" "<<eta<<endl;
 
   double etnew;
-  ParametersMap::const_iterator ip=mParametrization->upper_bound(eta);
+  MCJetNameSpace::ParametersMap::const_iterator ip=mParametrization->upper_bound(eta);
   if (ip==mParametrization->begin()) { 
     etnew=ip->second->value(et); 
   }
@@ -192,7 +191,7 @@ double SimpleMCJetCorrector::correctionEtEta (double fEt, double fEta) const {
     etnew=et2;
   }
 	 
-  if (debug) cout<<" The new energy found "<<etnew<<" "<<et<<endl;
+  if (MCJetNameSpace::debug) cout<<" The new energy found "<<etnew<<" "<<et<<endl;
   
   return etnew/et;
 }
