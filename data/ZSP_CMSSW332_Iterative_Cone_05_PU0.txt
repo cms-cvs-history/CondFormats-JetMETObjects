@@ -1,13 +1,5 @@
-#     ZSP corrections JETS for Iterative Cone R=0.5
-#
-#     Simulation Release CMSSW_3_1_2, Reconstruction Release CMSSW_3_3_2,
-#     CaloTowers use new thresholds schema (MC31X_v9), No Pileup.
-#
-#     ECAL and HCAL RecHIts without ZSP
-#     File provided by Olga Kodolova in November 2009
-#     New parametrization is used (type of parametrization = 2)
-# Eta | type | NPU | Params (4) 
- 0. 0.5 6 2 0. 0.26972931 -0.05307508  0.12849868  -0.00567255
+{1 JetEta 1 JetPt [2]*(exp[3]*x)+[4]*exp([5]*x) Correction}
+ 0.0 0.5 6 2 0. 0.26972931 -0.05307508  0.12849868  -0.00567255
  0.5 1.0 6 2 0. 0.27839331 -0.05358765  0.13376367  -0.00585319
  1.0 1.5 6 2 0. 0.28102349 -0.05661888  0.14073295  -0.00595633
  1.5 2.0 6 2 0. 0.23446444 -0.05499940  0.12675205  -0.00603493
