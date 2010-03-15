@@ -1,4 +1,4 @@
-{1  JetEta 1 JetE 1-[0]/x Correction}
+{1  JetEta 1 JetE 1-[0]/x Correction L1Offset}
  -5.2  -4.9   3   1  5000  2.82929
  -4.9  -4.8   3   1  5000  3.22883
  -4.8  -4.7   3   1  5000  3.57623
