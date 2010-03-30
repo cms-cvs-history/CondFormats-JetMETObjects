@@ -7,8 +7,8 @@ void TestCorrections()
   TRandom *rnd = new TRandom();
   rnd->SetSeed(0);
   ////////////// Define the JetCorrector ///////////////////////
-  string Levels = "L4";
-  string Tags = "../data/L4EMF_AK5Calo.txt:";
+  string Levels = "L2:L3";
+  string Tags = "../data/Summer09_7TeV_ReReco332_L2Relative_AK5Calo.txt:../data/Summer09_7TeV_ReReco332_L3Absolute_AK5Calo.txt";
   FactorizedJetCorrector *JetCorrector = new FactorizedJetCorrector(Levels,Tags);
   ////////////// Fill demo histogram  ////////////////////////////
   double vx[1000],vy[1000];
@@ -16,10 +16,8 @@ void TestCorrections()
     {
       double pt  = rnd->Uniform(10,500);    
       double eta = rnd->Uniform(-5,5);  
-      double emf = rnd->Uniform(-1,1);
       JetCorrector->setJetEta(eta); 
       JetCorrector->setJetPt(pt);
-      JetCorrector->setJetEMF(emf);  
       double scale = JetCorrector->getCorrection();
       vx[index] = pt;
       vy[index] = scale;
