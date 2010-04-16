@@ -1,2 +1,0 @@
-{1 JetEta 1 JetPt [0]+[1]*TMath::Erf([2]*(log10(x)-[3])) Correction L3Absolute}
--5.191      5.191       6           4           5000        1.03794     0.0236219   4.09571     2.5349      
