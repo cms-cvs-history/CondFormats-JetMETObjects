@@ -1,4 +1,4 @@
-{1 JetEta 2 JetE NPV 1-[0]*(y-1)/x Correction L1Offset}
+{1 JetEta 2 JetE NPV 1-2*[0]*(y-1)/x Correction L1Offset}
 -5.5  -4.9  5  1  50000  0  1000  10.824
 -4.9  -4.8  5  1  50000  0  1000  12.717
 -4.8  -4.7  5  1  50000  0  1000  13.914
