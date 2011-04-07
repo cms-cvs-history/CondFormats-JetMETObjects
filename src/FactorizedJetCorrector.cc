@@ -33,7 +33,7 @@ FactorizedJetCorrector::FactorizedJetCorrector()
   mJPTrawE = -9999;
   mJPTrawEt = -9999;
   mJPTrawEta = -9999;
-  mJPTrawZSP = -9999;
+  mJPTrawOff = -9999;
   mAddLepToJet      = false;
   mIsNPVset         = false;
   mIsJetEset        = false;
@@ -44,7 +44,7 @@ FactorizedJetCorrector::FactorizedJetCorrector()
   mIsJetAset        = false;
   mIsRhoset         = false;
   mIsJPTrawP4set    = false;
-  mIsJPTrawZSPset   = false;
+  mIsJPTrawOFFset   = false;
   mIsLepPxset       = false;
   mIsLepPyset       = false;
   mIsLepPzset       = false;
@@ -69,7 +69,7 @@ FactorizedJetCorrector::FactorizedJetCorrector(const std::string& fLevels, const
   mJPTrawE = -9999;
   mJPTrawEt = -9999;
   mJPTrawEta = -9999;
-  mJPTrawZSP = -9999;
+  mJPTrawOff = -9999;
   mAddLepToJet      = false;
   mIsNPVset         = false;
   mIsJetEset        = false;
@@ -80,7 +80,7 @@ FactorizedJetCorrector::FactorizedJetCorrector(const std::string& fLevels, const
   mIsJetAset        = false;
   mIsRhoset         = false;
   mIsJPTrawP4set    = false;
-  mIsJPTrawZSPset   = false;
+  mIsJPTrawOFFset   = false;
   mIsLepPxset       = false;
   mIsLepPyset       = false;
   mIsLepPzset       = false;
@@ -106,7 +106,7 @@ FactorizedJetCorrector::FactorizedJetCorrector(const std::vector<JetCorrectorPar
   mJPTrawE = -9999;
   mJPTrawEt = -9999;
   mJPTrawEta = -9999;
-  mJPTrawZSP = -9999;
+  mJPTrawOff = -9999;
   mAddLepToJet      = false;
   mIsNPVset         = false;
   mIsJetEset        = false;
@@ -117,7 +117,7 @@ FactorizedJetCorrector::FactorizedJetCorrector(const std::vector<JetCorrectorPar
   mIsJetAset        = false;
   mIsRhoset         = false;
   mIsJPTrawP4set    = false;
-  mIsJPTrawZSPset   = false;
+  mIsJPTrawOFFset   = false;
   mIsLepPxset       = false;
   mIsLepPyset       = false;
   mIsLepPzset       = false;
@@ -250,8 +250,8 @@ std::vector<FactorizedJetCorrector::VarTypes> FactorizedJetCorrector::mapping(co
       result.push_back(kJPTrawEt);
     else if (ss=="JPTrawEta")
       result.push_back(kJPTrawEta);
-    else if (ss=="JPTrawZSP")
-      result.push_back(kJPTrawZSP);
+    else if (ss=="JPTrawOff")
+      result.push_back(kJPTrawOff);
     else {
       std::stringstream sserr; 
       sserr<<"unknown parameter name: "<<ss;
@@ -370,12 +370,10 @@ std::vector<float> FactorizedJetCorrector::getSubCorrections()
     //if (mLevels[i]==kL2 || mLevels[i]==kL6)
       //mCorrectors[i]->setInterpolation(true); 
     scale = mCorrectors[i]->correction(vx,vy); 
-    //----- For JPT jets, the offset is applied to the raw jet
-    if ((mLevels[i]==kL1 || mLevels[i]==kL1fj) && mIsJPTrawP4set) { 
-      mJPTrawE  *= scale;
-      mJPTrawEt *= scale;
-      if (mLevels.size()==1)
-        factor *= scale;
+    //----- For JPT jets, the offset is stored in order to be used later by the the L1JPTOffset
+    if ((mLevels[i]==kL1 || mLevels[i]==kL1fj) && mIsJPTrawP4set && !mIsJPTrawOFFset) { 
+      mJPTrawOff = scale;
+      mIsJPTrawOFFset = true;
     }	
     else if (mLevels[i]==kL6 && mAddLepToJet) { 
       scale  *= 1.0 + getLepPt() / mJetPt;
@@ -399,7 +397,7 @@ std::vector<float> FactorizedJetCorrector::getSubCorrections()
   mIsJetAset      = false;
   mIsRhoset       = false;
   mIsJPTrawP4set  = false;
-  mIsJPTrawZSPset = false;
+  mIsJPTrawOFFset = false;
   mIsLepPxset     = false;
   mIsLepPyset     = false;
   mIsLepPzset     = false;
@@ -468,10 +466,10 @@ std::vector<float> FactorizedJetCorrector::fillVector(std::vector<VarTypes> fVar
         handleError("FactorizedJetCorrector","raw CaloJet P4 for JPT is not set");
       result.push_back(mJPTrawEta);
     }
-    else if (fVarTypes[i] == kJPTrawZSP) {
-      if (!mIsJPTrawZSPset) 
-        handleError("FactorizedJetCorrector","ZSP correction for JPT is not set");
-      result.push_back(mJPTrawZSP);
+    else if (fVarTypes[i] == kJPTrawOff) {
+      if (!mIsJPTrawOFFset) 
+        handleError("FactorizedJetCorrector","Offset correction for JPT is not set");
+      result.push_back(mJPTrawOff);
     }
     else if (fVarTypes[i] == kRelLepPt) {
       if (!mIsJetPtset||!mIsAddLepToJetset||!mIsLepPxset||!mIsLepPyset) 
@@ -599,10 +597,10 @@ void FactorizedJetCorrector::setJPTrawP4(TLorentzVector fJPTrawP4)
   mIsJPTrawP4set = true;
 }
 //------------------------------------------------------------------------
-void FactorizedJetCorrector::setJPTrawZSP(float fJPTrawZSP)
+void FactorizedJetCorrector::setJPTrawOff(float fJPTrawOff)
 {
-  mJPTrawZSP = fJPTrawZSP;
-  mIsJPTrawZSPset = true;
+  mJPTrawOff = fJPTrawOff;
+  mIsJPTrawOFFset = true;
 }
 //------------------------------------------------------------------------
 void FactorizedJetCorrector::setLepPx(float fPx)
