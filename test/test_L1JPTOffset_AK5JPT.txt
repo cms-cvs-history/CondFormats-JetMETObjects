@@ -1,4 +1,4 @@
-{1 JPTrawEta 4 JPTrawEt JetE JPTrawE JPTrawOff 1-(1-t*[0]*pow(x*t/(x*t+[1]),[2])*pow((x*t+[3]),[4]))*z/y Correction L1JPTOffset}
+{1 JPTrawEta 4 JPTrawEt JetE JPTrawE JPTrawOff 1-(1-t/(1-[0]*pow(t*x/(t*x+[1]),[2])*pow((t*x+[3]),[4])))*z/y Correction L1JPTOffset}
  -5.5 -4.5 13  7  3500  7  3500  7  3500  0  100 0. 0. 0.  0.  0.  
  -4.5 -4.0 13  7  3500  7  3500  7  3500  0  100 0. 0. 0.  0.  0.  
  -4.0 -3.5 13  7  3500  7  3500  7  3500  0  100 0. 0. 0.  0.  0.  
